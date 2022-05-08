@@ -21,3 +21,4 @@ router.route('/:studentId/assignments').post(addAssignment);
 router.route('/:studentId/assignments/:assignmentId').delete(removeAssignment);
 
 module.exports = router;
+

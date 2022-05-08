@@ -5,38 +5,17 @@ const {
     getSingleUser,
     createUser,
     deleteUser,
-} = require('../../controllers/courseController.js');
+    updateUser
+} = require('../../controllers/userController');
+
+//* /api/user
+router.route('/').get(getUser).post(createUser);
+
+//* /api/user/:userId
+router.route('/:userId').get(getSingleUser).delete(deleteUser);
 
 
-
-// const {
-//   getCourses,
-//   getSingleCourse,
-//   createCourse,
-//   updateCourse,
-//   deleteCourse,
-// } = require('../../controllers/courseController.js');
-
-// // /api/courses
-// router.route('/').get(getCourses).post(createCourse);
-
-// // /api/courses/:courseId
-// router
-//   .route('/:courseId')
-//   .get(getSingleCourse)
-//   .put(updateCourse)
-//   .delete(deleteCourse);
-
-// module.exports = router;
-// const router = require('express').Router();
-// const {
-//   getStudents,
-//   getSingleStudent,
-//   createStudent,
-//   deleteStudent,
-//   addAssignment,
-//   removeAssignment,
-// } = require('../../controllers/studentController');
+module.exports = router;
 
 // // /api/students
 // router.route('/').get(getStudents).post(createStudent);
