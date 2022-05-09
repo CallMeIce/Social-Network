@@ -9,4 +9,15 @@ const thoughtSchema = new mongoose.Schema({
     lastAccessed: { type: Date, default: Date.now },
 });
 
-module.exports = thoughtSchema;
+// Create a virtual property `getTags` that gets the amount of tags associated with an application
+thoughtSchema.virtual('getReaction')
+  // Getter
+  .get(function () {
+    return this.reactions.length;
+  });
+
+// Initialize our Application model
+const thought = model('thought', thoughtSchema);
+
+
+module.exports = thought;
