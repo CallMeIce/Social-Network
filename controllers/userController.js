@@ -1,55 +1,38 @@
-const { user, thought } = require('../models');
+const { User, Thought } = require('../models');
 
 module.exports = {
-  //* Get all thoughts
-  getThought(req, res) {
-    thought.find()
-      .then((thought) => res.json(thought))
+  // Get all users
+  getUsers(req, res) {
+    User.find()
+      .then((users) => res.json(users))
       .catch((err) => res.status(500).json(err));
   },
-  //* Get a thought
-  getSingleThought(req, res) {
-    thought.findOne({ _id: req.params.thoughtId })
+  // Get a single user
+  getSingleUser(req, res) {
+    User.findOne({ _id: req.params.userId })
       .select('-__v')
-      .then((thought) =>
-        !thought
-          ? res.status(404).json({ message: 'No thought with that ID' })
-          : res.json(thought)
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: 'No user with that ID' })
+          : res.json(user)
       )
       .catch((err) => res.status(500).json(err));
   },
-  //* Create a thought
-  createThought(req, res) {
-    thought.create(req.body)
-      .then((thought) => res.json(thought))
-      .catch((err) => {
-        console.log(err);
-        return res.status(500).json(err);
-      });
-  },
-  //Todo Delete a course
-  deleteCourse(req, res) {
-    Course.findOneAndDelete({ _id: req.params.courseId })
-      .then((course) =>
-        !course
-          ? res.status(404).json({ message: 'No course with that ID' })
-          : Student.deleteMany({ _id: { $in: course.students } })
-      )
-      .then(() => res.json({ message: 'Course and students deleted!' }))
+  // create a new user
+  createUser(req, res) {
+    User.create(req.body)
+      .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
-  //Todo Update a course
-  updateCourse(req, res) {
-    Course.findOneAndUpdate(
-      { _id: req.params.courseId },
-      { $set: req.body },
-      { runValidators: true, new: true }
-    )
-      .then((course) =>
-        !course
-          ? res.status(404).json({ message: 'No course with this id!' })
-          : res.json(course)
+  // Delete a user and associated apps
+  deleteUser(req, res) {
+    User.findOneAndDelete({ _id: req.params.userId })
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: 'No user with that ID' })
+          : Thought.deleteMany({ _id: { $in: user.thought } })
       )
+      .then(() => res.json({ message: 'User and associated apps deleted!' }))
       .catch((err) => res.status(500).json(err));
   },
 };
