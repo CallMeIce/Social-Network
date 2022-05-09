@@ -1,33 +1,33 @@
-const { Course, Student } = require('../models');
+const { user, thought } = require('../models');
 
 module.exports = {
-  // Get all courses
-  getCourses(req, res) {
-    Course.find()
-      .then((courses) => res.json(courses))
+  //* Get all thoughts
+  getThought(req, res) {
+    thought.find()
+      .then((thought) => res.json(thought))
       .catch((err) => res.status(500).json(err));
   },
-  // Get a course
-  getSingleCourse(req, res) {
-    Course.findOne({ _id: req.params.courseId })
+  //* Get a thought
+  getSingleThought(req, res) {
+    thought.findOne({ _id: req.params.thoughtId })
       .select('-__v')
-      .then((course) =>
-        !course
-          ? res.status(404).json({ message: 'No course with that ID' })
-          : res.json(course)
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: 'No thought with that ID' })
+          : res.json(thought)
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Create a course
-  createCourse(req, res) {
-    Course.create(req.body)
-      .then((course) => res.json(course))
+  //* Create a thought
+  createThought(req, res) {
+    thought.create(req.body)
+      .then((thought) => res.json(thought))
       .catch((err) => {
         console.log(err);
         return res.status(500).json(err);
       });
   },
-  // Delete a course
+  //Todo Delete a course
   deleteCourse(req, res) {
     Course.findOneAndDelete({ _id: req.params.courseId })
       .then((course) =>
@@ -38,7 +38,7 @@ module.exports = {
       .then(() => res.json({ message: 'Course and students deleted!' }))
       .catch((err) => res.status(500).json(err));
   },
-  // Update a course
+  //Todo Update a course
   updateCourse(req, res) {
     Course.findOneAndUpdate(
       { _id: req.params.courseId },

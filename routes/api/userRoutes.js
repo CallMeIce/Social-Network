@@ -16,8 +16,11 @@ router.route('/').get(getUser).post(createUser);
 //* /api/user/:userId
 router.route('/:userId').get(getSingleUser).delete(deleteUser);
 
-//* /api/user/:userId/
-router.route('/:studentId/assignments').post(addAssignment);
+//* /api/user/:userId/friend
+router.route('/:userId/reaction').post(addFriend);
+
+//* /api/user/:userId/friend/:friendId
+router.route('/:userId/friend/:friendId').delete(removeFriend);
 
 module.exports = router;
 
@@ -34,3 +37,4 @@ module.exports = router;
 // router.route('/:studentId/assignments/:assignmentId').delete(removeAssignment);
 
 // module.exports = router;
+
