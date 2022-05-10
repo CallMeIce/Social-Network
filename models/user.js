@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const {Schema, model} = require('mongoose')
 
 var validateEmail = function (email) {
@@ -6,11 +5,11 @@ var validateEmail = function (email) {
     return re.test(email)
 };
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
     username: { type: String, unique: true, required: true, trim: true },
     email: { type: String, unique: true, required: true, trim: true, validate: [validateEmail, 'Please fill a valid email address'] },
-    thoughts: { type: Schema.Types.ObjectsId, ref: 'thought' },
-    friends: { type: Schema.Types.ObjectsId, ref: 'user' },
+    thoughts: { type: Schema.Types.ObjectsId, ref: 'thoughtSchema' },
+    friends: { type: Schema.Types.ObjectsId, ref: 'userSchema' },
     toJSON: { getters: true, }, id: false,
 });
 
