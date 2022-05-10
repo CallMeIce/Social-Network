@@ -8,9 +8,9 @@ var validateEmail = function (email) {
 const userSchema = new Schema({
     username: { type: String, unique: true, required: true, trim: true },
     email: { type: String, unique: true, required: true, trim: true, validate: [validateEmail, 'Please fill a valid email address'] },
-    thoughts: { type: Schema.Types.ObjectsId, ref: 'thoughtSchema' },
+    thought: { type: Schema.Types.ObjectsId, ref: 'thoughtSchema' },
     friends: { type: Schema.Types.ObjectsId, ref: 'userSchema' },
-    toJSON: { getters: true, }, id: false,
+    toJSON: { virtuals: true, getters: true, }, id: false,
 });
 
 // Create a virtual property `getTags` that gets the amount of tags associated with an application

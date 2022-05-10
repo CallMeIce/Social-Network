@@ -1,14 +1,13 @@
 const reactionSchema = require('./reaction')
-const {Schema, model } = require('mongoose')
-const mongoose = require('mongoose')
+const { model } = require('mongoose')
 
-const thoughtSchema = new mongoose.Schema({
+const thoughtSchema = new Schema({
     thoughtText: { type: String, required: true, minLength: 1, maxLength: 280 },
     createdAt: { type: Date, default: Date.now, get: timeStamp => dateFormat(timeStamp) },
     username: { type: String, required: true },
     reactions: [reactionSchema],
     lastAccessed: { type: Date, default: Date.now },
-    toJSON: { getters: true, }, id: false,
+    toJSON: { virtuals: true, getters: true, }, id: false,
 });
 
 // Create a virtual property `getTags` that gets the amount of tags associated with an application
