@@ -2,7 +2,7 @@ const { User, Thought } = require('../models');
 
 module.exports = {
   // Get all user
-  getUsers(req, res) {
+  getUser(req, res) {
     User.find()
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
@@ -33,6 +33,49 @@ module.exports = {
           : Thought.deleteMany({ _id: { $in: user.thought } })
       )
       .then(() => res.json({ message: 'User and associated apps deleted!' }))
+      .catch((err) => res.status(500).json(err));
+  },
+
+  updateUser(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { reactions: req.body } },
+      { runValidators: true, new: true }
+    )
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: 'No user with this id!' })
+          : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+
+  // Adds a reaction to a thought. This method is unique in that we add the entire body of the reaction rather than the ID with the mongodb $addToSet operator.
+  addFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.params.friendsId } },
+      { runValidators: true, new: true }
+    )
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: 'No user with this id!' })
+          : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+  // Remove thought reaction. This method finds the thought based on ID. It then updates the reactions array associated with the app in question by removing it's reactionId from the reactions array.
+  removeFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { friends: { friendsId: req.params.friendsId } } },
+      { runValidators: true, new: true }
+    )
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: 'No user with this id!' })
+          : res.json(user)
+      )
       .catch((err) => res.status(500).json(err));
   },
 };

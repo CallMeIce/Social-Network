@@ -3,7 +3,7 @@ const { Thought, User } = require('../models');
 module.exports = {
   // Function to get all of the thought by invoking the find() method with no arguments.
   // Then we return the results as JSON, and catch any errors. Errors are sent as JSON with a message and a 500 status code
-  getThoughts(req, res) {
+  getThought(req, res) {
     Thought.find()
       .then((thought) => res.json(thought))
       .catch((err) => res.status(500).json(err));
