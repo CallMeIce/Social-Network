@@ -1,15 +1,15 @@
-const {Schema, model} = require('mongoose')
-const mongoose = require('mongoose')
+const {Schema, model, Types } = require('mongoose')
+
 
 var validateEmail = function (email) {
     var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return re.test(email)
 };
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
     username: { type: String, unique: true, required: true, trim: true },
     email: { type: String, unique: true, required: true, trim: true, validate: [validateEmail, 'Please fill a valid email address'] },
-    thoughts: [{ type: Schema.Types.ObjectId, ref: 'thought' }],
+    thought: [{ type: Schema.Types.ObjectId, ref: 'thought' }],
     friends: [{ type: Schema.Types.ObjectId, ref: 'user' }]},
     {toJSON: { virtuals: true }, id: false},
 );
@@ -22,6 +22,7 @@ userSchema.virtual('getFriend')
   });
 
 // Initialize our Application model
-const user = model('user', userSchema);
+const User = model('user', userSchema);
+console.log(User);
 
-module.exports = user;
+module.exports = User;

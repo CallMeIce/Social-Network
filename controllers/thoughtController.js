@@ -1,4 +1,7 @@
-const { Thought, User } = require('../models');
+const { Thought } = require('../models');
+const User = require('../models/user')
+
+console.log(User);
 
 module.exports = {
   // Function to get all of the thought by invoking the find() method with no arguments.
@@ -25,7 +28,7 @@ module.exports = {
       .then((thought) => {
         return User.findOneAndUpdate(
           { _id: req.body.userId },
-          { $addToSet: { thought: thought._id } },
+          { $push: { thought: thought._id } },
           { new: true }
         );
       })
